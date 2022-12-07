@@ -1,9 +1,21 @@
-import axios, { AxiosResponse, AxiosError } from "axios";
+import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
 import { API_BASE_URL } from "constants/common";
+import { TOKEN } from "constants/localStorage";
 
 export const instance = axios.create({
   baseURL: API_BASE_URL,
 });
+
+function requestInterceptor(config: AxiosRequestConfig) {
+  return {
+    ...config,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(TOKEN!)}`,
+    },
+  };
+}
+
+instance.interceptors.request.use(requestInterceptor);
 
 function responsefulfilledInterceptor(res: AxiosResponse) {
   if (200 <= res.status && res.status < 300) {
