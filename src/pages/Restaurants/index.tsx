@@ -1,6 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
 import useGetRestaurant from "hooks/api/useGetRestaurant";
+import Link from "next/link";
+
+import { button } from "styles/css/button";
 
 function Restaurants() {
   const { restaurants, isLoading, deleteRestaurant } = useGetRestaurant();
@@ -17,7 +20,12 @@ function Restaurants() {
 
   return (
     <div css={paddingWrapper}>
-      <span css={title}>온수냠냠냠 식당 모음</span>
+      <div css={navWrapper}>
+        <span css={title}>온수냠냠냠 식당 모음</span>
+        <Link href="/Restaurants/AddRestaurant">
+          <button css={createButton}>식당 추가하기</button>
+        </Link>
+      </div>
       {restaurants.map((restaurant) => (
         <div key={restaurant.id} css={wrapper}>
           <span css={restaurantnName}>{restaurant.name}</span>
@@ -37,6 +45,12 @@ export default Restaurants;
 
 const paddingWrapper = css`
   padding: 2rem;
+`;
+
+const navWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const wrapper = css`
@@ -60,14 +74,12 @@ const restaurantnName = (theme: Theme) => css`
   opacity: 0.85;
 `;
 
+const createButton = (theme: Theme) => css`
+  ${button(theme)}
+  background-color: ${theme.color.yellow};
+`;
+
 const deleteButton = (theme: Theme) => css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.45rem 0.8rem;
-  margin-left: 0.7rem;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  font-weight: ${theme.fontWeight.bold};
+  ${button(theme)}
   background-color: ${theme.color.border};
 `;
