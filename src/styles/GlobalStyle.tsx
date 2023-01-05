@@ -26,6 +26,7 @@ const globalStyle = (theme: Theme) => css`
   }
 
   button,
+  input,
   a {
     all: unset;
     cursor: pointer;
