@@ -1,4 +1,4 @@
-import CustomTheme from "styles/Theme";
+import CustomTheme from "styles/Theme/theme";
 
 import "@emotion/react";
 
