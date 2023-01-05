@@ -3,7 +3,7 @@ import setAuthorizationToken from "libs/api/setAuthorizationToken";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
-function Home() {
+function Signin() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +29,7 @@ function Home() {
         console.log(res.data.accessToken);
         localStorage.setItem("accessToken", res.data.accessToken);
         setAuthorizationToken(res.data.accessToken);
+        router.push("/Main");
       })
       .catch((error) => {
         console.log(error);
@@ -55,4 +56,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Signin;
