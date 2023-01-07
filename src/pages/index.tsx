@@ -35,8 +35,8 @@ function Signin() {
         setAuthorizationToken(res.data.accessToken);
         router.push("/Main");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        alert("잘못된 입력이에요");
       });
   }
 

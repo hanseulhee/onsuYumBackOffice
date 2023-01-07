@@ -82,4 +82,5 @@ const createButton = (theme: Theme) => css`
 const deleteButton = (theme: Theme) => css`
   ${button(theme)}
   background-color: ${theme.color.border};
+  margin-left: 0.7rem;
 `;
