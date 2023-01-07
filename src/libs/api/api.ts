@@ -1,6 +1,5 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
 import { API_BASE_URL } from "constants/common";
-import { ACCESS_TOKEN } from "constants/localStorage";
 
 export const instance = axios.create({
   baseURL: API_BASE_URL,
@@ -12,8 +11,10 @@ function requestInterceptor(config: AxiosRequestConfig) {
   return {
     ...config,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN!)}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       withCredentials: true,
+      Accept: "*/*",
+      "Content-Type": "application/json",
     },
   };
 }

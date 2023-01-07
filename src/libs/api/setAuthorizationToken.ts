@@ -1,10 +1,9 @@
 import { instance } from "libs/api/api";
 
 function setAuthorizationToken(access_token) {
-  if (access_token) {
-    instance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${access_token}`;
+  const token = localStorage.getItem(access_token);
+  if (token) {
+    instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
     delete instance.defaults.headers.common["Authorization"];
   }

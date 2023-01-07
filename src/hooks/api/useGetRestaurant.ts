@@ -12,8 +12,6 @@ function useGetRestaurant() {
     const response = await instance.get<{}, IGetRestaurant>(
       "/admin/restaurants"
     );
-
-    console.log(response);
     setRestaurants(response.data.content);
     setIsLoading(false);
   }
@@ -23,7 +21,7 @@ function useGetRestaurant() {
   }, []);
 
   async function createRestaurant() {
-    await instance.post(`/admin/restaurants`);
+    await instance.post<{}, IPostRestaurantData>(`/admin/restaurants`);
     getRestaurant();
   }
 
