@@ -22,8 +22,8 @@ function useGetRestaurant() {
     getRestaurant();
   }, []);
 
-  async function createRestaurant(restaurantId: number) {
-    await instance.post(`/admin/restaurants/${restaurantId}`);
+  async function createRestaurant() {
+    await instance.post(`/admin/restaurants`);
     getRestaurant();
   }
 
