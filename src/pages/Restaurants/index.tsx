@@ -27,15 +27,17 @@ function Restaurants() {
         </Link>
       </div>
       {restaurants.map((restaurant) => (
-        <div key={restaurant.id} css={wrapper}>
-          <span css={restaurantnName}>{restaurant.name}</span>
-          <button
-            css={deleteButton}
-            onClick={() => onClickDeleteBtn(restaurant.id)}
-          >
-            삭제하기
-          </button>
-        </div>
+        <Link href={`/Detail/${restaurant.id}`} key={restaurant.id}>
+          <div css={wrapper}>
+            <span css={restaurantnName}>{restaurant.name}</span>
+            <button
+              css={deleteButton}
+              onClick={() => onClickDeleteBtn(restaurant.id)}
+            >
+              삭제하기
+            </button>
+          </div>
+        </Link>
       ))}
     </div>
   );
