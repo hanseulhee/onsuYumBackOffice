@@ -3,14 +3,15 @@ import { useEffect, useState } from "react";
 import { instance } from "libs/api/api";
 import { restaurantState } from "store/restautantState";
 
-function useGetRestaurant() {
+function useGetRestaurant(page: number) {
   const [restaurants, setRestaurants] = useRecoilState(restaurantState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function getRestaurant() {
     setIsLoading(true);
     const response = await instance.get<{}, IGetRestaurant>(
-      "/admin/restaurants"
+      `/admin/restaurants?page=${page}`
+
     );
     setRestaurants(response.data.content);
     setIsLoading(false);
