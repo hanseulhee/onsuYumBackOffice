@@ -30,7 +30,6 @@ function Signin() {
     instance
       .post("/api/auth/login", auth)
       .then((res) => {
-        console.log(res.data.accessToken);
         localStorage.setItem("accessToken", res.data.accessToken);
         setAuthorizationToken(res.data.accessToken);
         router.push("/Main");

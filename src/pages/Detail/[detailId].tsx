@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import { css, Theme } from "@emotion/react";
 import useGetRestaurantById from "hooks/api/useGetRestaurantById";
+import MenuList from "components/Menu";
 
 function Detail() {
   const {
@@ -33,6 +34,18 @@ function Detail() {
       ) : (
         <li>정보 없음</li>
       )}
+
+      <span>메뉴</span>
+      {restaurantMenu.map((menu) => {
+        return (
+          <MenuList
+            key={menu.id}
+            name={menu.name}
+            price={menu.price}
+            menuImage={menu.menuImage}
+          />
+        );
+      })}
     </div>
   );
 }

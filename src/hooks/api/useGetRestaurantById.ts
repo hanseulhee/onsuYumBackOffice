@@ -22,7 +22,7 @@ function useGetRestaurantById({ detailId }: UseGetRestaurantByIdProps) {
         `/admin/restaurants/${id}`
       );
       const responseMenu = await instance.get<{}, IGetMenu>(
-        `/admin/menus/${response.data.id}`
+        `/admin/restaurants/${response.data.id}/menus`
       );
 
       setRestaurant(response.data);
