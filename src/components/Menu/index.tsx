@@ -1,21 +1,40 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
+import DeleteBtn from "components/Button/DeleteBtn";
+import ModifyBtn from "components/Button/ModifyBtn";
 import { API_BASE_URL } from "constants/common";
+import useGetRestaurant from "hooks/api/useGetRestaurant";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
+  id: IMenuData["id"];
   name: IMenuData["name"];
   price: IMenuData["price"];
   menuImage: IMenuData["menuImage"];
 }
 
-function MenuList({ name, price, menuImage }: Props) {
+function MenuList({ id, name, price, menuImage }: Props) {
+  const { deleteRestaurant } = useGetRestaurant();
+
+  function onClickDeleteBtn() {
+    if (confirm("삭제하시겠습니까?")) {
+      deleteRestaurant(id);
+    }
+  }
+
   return (
     <div css={wrapper}>
       <div css={itemPlaced}>
         <div css={summaryWrapper}>
           <span css={menuName}>{name}</span>
           <span css={priceText}>{price}원</span>
+          <div>
+            <Link href="/Menu/ModifyMenu">
+              <ModifyBtn />
+            </Link>
+            <DeleteBtn onClick={() => onClickDeleteBtn()} />
+          </div>
         </div>
         <div css={imgWrapper}>
           {menuImage?.id ? (
@@ -52,13 +71,14 @@ const wrapper = (theme: Theme) => css`
 const itemPlaced = css`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0.85rem 1.3rem;
 `;
 
 const summaryWrapper = css`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 const imgWrapper = css`
