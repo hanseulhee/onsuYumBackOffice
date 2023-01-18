@@ -3,9 +3,10 @@ import { css, Theme } from "@emotion/react";
 import DeleteBtn from "components/Button/DeleteBtn";
 import ModifyBtn from "components/Button/ModifyBtn";
 import { API_BASE_URL } from "constants/common";
-import useGetRestaurant from "hooks/api/useGetRestaurant";
+import usePostMenu from "hooks/api/usePostMenu";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface Props {
   id: IMenuData["id"];
@@ -15,7 +16,13 @@ interface Props {
 }
 
 function MenuList({ id, name, price, menuImage }: Props) {
-  const { deleteRestaurant } = useGetRestaurant();
+  const {
+    query: { modifyMenu },
+  } = useRouter();
+
+  const { deleteRestaurant } = usePostMenu({
+    modifyMenu,
+  });
 
   function onClickDeleteBtn() {
     if (confirm("삭제하시겠습니까?")) {
@@ -30,7 +37,7 @@ function MenuList({ id, name, price, menuImage }: Props) {
           <span css={menuName}>{name}</span>
           <span css={priceText}>{price}원</span>
           <div>
-            <Link href="/Menu/ModifyMenu">
+            <Link href={`/Menu/${id}`}>
               <ModifyBtn />
             </Link>
             <DeleteBtn onClick={() => onClickDeleteBtn()} />

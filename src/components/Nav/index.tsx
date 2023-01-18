@@ -8,7 +8,6 @@ function Nav() {
       <h1 css={logo}>온수냠냠냠</h1>
       <div css={linkWrapper}>
         <Link href="/Restaurants">식당</Link>
-        <Link href="/Menu">메뉴</Link>
         <Link href="/Babfull">밥풀</Link>
       </div>
     </nav>
