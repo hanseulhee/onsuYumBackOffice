@@ -3,29 +3,132 @@ import { css, Theme } from "@emotion/react";
 import { button } from "styles/css/button";
 import { input } from "styles/css/input";
 import { useForm } from "react-hook-form";
-import { instance } from "libs/api/api";
+import { useRouter } from "next/router";
+import { ChangeEvent, useRef, useState } from "react";
+import { API_BASE_URL } from "constants/common";
+import axios from "axios";
 
-function AddRestaurant(isRequest) {
+function AddRestaurant() {
+  const [name, setName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [summary, setSummary] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [latitude, setLatitude] = useState<number>();
+  const [longitude, setLongitude] = useState<number>();
+  const [time, setTime] = useState<string[]>();
+  const [insideImg, setInsideImg] = useState<File>();
+  const [outsideImg, setOutsideImg] = useState<File>();
+
+  const onChangeInsideImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData();
+    const target = e.currentTarget;
+    const files = (target.files as FileList)[0];
+    formData.append("file", e.currentTarget.value[0]);
+    setInsideImg(files);
+  };
+
+  const onChangeOutsideImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData();
+    const target = e.currentTarget;
+    const files = (target.files as FileList)[0];
+    formData.append("file", e.currentTarget.value[0]);
+    setOutsideImg(files);
+  };
+
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
+
+  const onChangeSummary = (e: ChangeEvent<HTMLInputElement>) => {
+    setSummary(e.target.value);
+  };
+
+  const onChangeLocation = (e: ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+  };
+
+  const onChangeLatitude = (e: ChangeEvent<HTMLInputElement>) => {
+    setLatitude(e.target.valueAsNumber);
+  };
+
+  const onChangeLongitude = (e: ChangeEvent<HTMLInputElement>) => {
+    setLongitude(e.target.valueAsNumber);
+  };
+
+  const onChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
+    setTime([e.target.value]);
+  };
+
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios
+      .post(
+        `${API_BASE_URL}/admin/restaurants`,
+        {
+          name: name,
+          phone: phone,
+          summary: summary,
+          location: location,
+          latitude: latitude,
+          longitude: longitude,
+          time: time,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            withCredentials: true,
+          },
+        }
+      )
+      .then((res) => {
+        if (insideImg === undefined || outsideImg === undefined) {
+          router.push("/Restaurants");
+          return;
+        }
+        const formData = new FormData();
+        formData.append("insideImg", insideImg);
+        formData.append("outsideImg", outsideImg);
+
+        axios
+          .post(`${API_BASE_URL}/admin/restaurants`, formData, {
+            headers: {
+              Accept: "multipart/form-data",
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              withCredentials: true,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((res) => {
+            console.log(res.data);
+          });
+        router.push("/Restaurants");
+      })
+      .catch((res) => {
+        console.log(res.data);
+      });
+  };
+
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const { register, handleSubmit } = useForm<IPostRestaurantData>();
-  function onSubmit(data: IPostRestaurantData) {
-    console.log(data);
-
-    async (formData: FormData) => {
-      const config = {
-        headers: { "Content-type": "multipart/form-data" },
-      };
-      instance
-        .post<IPostRestaurantData>("/admin/restaurants", formData, config)
-        .then((res) => {
-          console.log(res);
-        });
-    };
-  }
 
   return (
     <section css={paddingWrapper}>
       <span css={title}>식당 추가하기</span>
-      <form onSubmit={handleSubmit(onSubmit)} css={wrapper}>
+      <form
+        onSubmit={onSubmit}
+        css={wrapper}
+        encType="multipart/form-data"
+        method="post"
+      >
         <div css={inputLabelWrapper}>
           <label htmlFor="name" css={labelWrapper}>
             식당 이름
@@ -35,6 +138,7 @@ function AddRestaurant(isRequest) {
             placeholder="name"
             css={inputWrapper}
             {...register("name", { required: true })}
+            onChange={onChangeName}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -46,6 +150,7 @@ function AddRestaurant(isRequest) {
             placeholder="phone"
             css={inputWrapper}
             {...register("phone", { required: true })}
+            onChange={onChangePhone}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -57,6 +162,7 @@ function AddRestaurant(isRequest) {
             placeholder="summary"
             css={inputWrapper}
             {...register("summary", { required: true, maxLength: 17 })}
+            onChange={onChangeSummary}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -68,6 +174,7 @@ function AddRestaurant(isRequest) {
             placeholder="location"
             css={inputWrapper}
             {...register("location", { required: true })}
+            onChange={onChangeLocation}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -80,6 +187,7 @@ function AddRestaurant(isRequest) {
             placeholder="latitude"
             css={inputWrapper}
             {...register("latitude", { required: true })}
+            onChange={onChangeLatitude}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -92,6 +200,7 @@ function AddRestaurant(isRequest) {
             placeholder="longitude"
             css={inputWrapper}
             {...register("longitude", { required: true })}
+            onChange={onChangeLongitude}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -103,8 +212,10 @@ function AddRestaurant(isRequest) {
             placeholder="time"
             css={inputWrapper}
             {...register("time", { required: true })}
+            onChange={onChangeTime}
           />
         </div>
+
         <div css={inputLabelWrapper}>
           <label htmlFor="insideImg" css={labelWrapper}>
             안쪽 이미지 (detail 페이지에서 보일 이미지)
@@ -112,7 +223,9 @@ function AddRestaurant(isRequest) {
           <input
             id="insideImg"
             type="file"
+            ref={inputRef}
             accept="image/png, image/jpeg, image/jpg"
+            onChange={onChangeInsideImgFile}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -122,13 +235,14 @@ function AddRestaurant(isRequest) {
           <input
             id="outsideImg"
             type="file"
+            ref={inputRef}
             accept="image/png, image/jpeg, image/jpg"
+            onChange={onChangeOutsideImgFile}
           />
         </div>
+
         <div css={buttonWrapper}>
-          <button type="submit" css={submitButton}>
-            추가하기
-          </button>
+          <button css={submitButton}>추가하기</button>
         </div>
       </form>
     </section>
