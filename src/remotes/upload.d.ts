@@ -1,10 +1,10 @@
 interface IPostRestaurantData {
-  insideImage: File;
+  insideImage: IPhoto;
   latitude: number;
   location: string;
   longitude: number;
   name: string;
-  outsideImage: File;
+  outsideImage: IPhoto;
   phone: string;
   summary: string;
   time: string[];
