@@ -16,3 +16,10 @@ interface IMenuData {
   name: string;
   price: number;
 }
+
+interface IMenuModify {
+  description: string;
+  name: string;
+  price: number;
+  image: File;
+}
