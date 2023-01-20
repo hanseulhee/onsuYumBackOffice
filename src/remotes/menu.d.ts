@@ -21,5 +21,23 @@ interface IMenuModify {
   description: string;
   name: string;
   price: number;
-  image: File;
+}
+
+interface IPostMenu {
+  code: string;
+  data: IPostMenuData;
+  message: string;
+  status: number;
+  statusDetail: string;
+  timestamp: string;
+}
+
+interface IPostMenuData {
+  createdDate: string;
+  description: string;
+  id: number;
+  menuImage: IPhoto | null;
+  modifiedDate: string;
+  name: string;
+  price: number;
 }

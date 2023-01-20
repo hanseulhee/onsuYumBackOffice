@@ -3,7 +3,7 @@ import { css, Theme } from "@emotion/react";
 import DeleteBtn from "components/Button/DeleteBtn";
 import ModifyBtn from "components/Button/ModifyBtn";
 import { API_BASE_URL } from "constants/common";
-import usePostMenu from "hooks/api/usePostMenu";
+import useMenu from "hooks/api/useMenu";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,20 +13,21 @@ interface Props {
   name: IMenuData["name"];
   price: IMenuData["price"];
   menuImage: IMenuData["menuImage"];
+  description: IMenuData["description"];
 }
 
-function MenuList({ id, name, price, menuImage }: Props) {
+function MenuList({ id, name, price, menuImage, description }: Props) {
   const {
     query: { detailId },
   } = useRouter();
 
-  const { deleteRestaurant } = usePostMenu({
+  const { deleteMenu } = useMenu({
     detailId,
   });
 
   function onClickDeleteBtn(id: number) {
     if (confirm("삭제하시겠습니까?")) {
-      deleteRestaurant(id);
+      deleteMenu(id);
     }
   }
 
@@ -35,6 +36,7 @@ function MenuList({ id, name, price, menuImage }: Props) {
       <div css={itemPlaced}>
         <div css={summaryWrapper}>
           <span css={menuName}>{name}</span>
+          <span css={priceText}>설명: {description}</span>
           <span css={priceText}>{price}원</span>
           <div css={buttonWrapper}>
             <Link href={`/Menu/Modify/${id}`}>
