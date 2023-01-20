@@ -26,14 +26,18 @@ const navWrapper = css`
   margin: 2rem 0;
 `;
 
-const linkWrapper = css`
+const linkWrapper = (theme: Theme) => css`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 10rem;
+  font-size: 1.2rem;
+  font-weight: ${theme.fontWeight.bold};
 `;
 
 const logo = (theme: Theme) => css`
+  font-size: 1.85rem;
+  font-weight: ${theme.fontWeight.bold};
   color: ${theme.color.yellow};
   cursor: pointer;
 `;
