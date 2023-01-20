@@ -4,11 +4,13 @@ import { button } from "styles/css/button";
 import { input } from "styles/css/input";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { API_BASE_URL } from "constants/common";
 import axios from "axios";
 
 function AddRestaurant() {
+  const [inputValue, setInputValue] = useState<string>("");
+
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
@@ -38,10 +40,27 @@ function AddRestaurant() {
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-
-  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
+  
+  const handlePress = (e) => {
+    const regex = /^[0-9\b -]{0,13}$/;
+    if (regex.test(e.target.value)) {
+      setInputValue(e.target.value);
+    }
     setPhone(e.target.value);
   };
+
+  useEffect(() => {
+    if (inputValue.length === 10) {
+      setInputValue(inputValue.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"));
+    }
+    if (inputValue.length === 13) {
+      setInputValue(
+        inputValue
+          .replace(/-/g, "")
+          .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")
+      );
+    }
+  }, [inputValue]);
 
   const onChangeSummary = (e: ChangeEvent<HTMLInputElement>) => {
     setSummary(e.target.value);
@@ -63,10 +82,9 @@ function AddRestaurant() {
     setTime([e.target.value]);
   };
 
-  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  function onSubmit() {
     axios
-      .post(
+      .post<{}, IPostRestaurantData>(
         `${API_BASE_URL}/admin/restaurants`,
         {
           name: name,
@@ -94,37 +112,29 @@ function AddRestaurant() {
         formData.append("insideImg", insideImg);
         formData.append("outsideImg", outsideImg);
 
-        axios
-          .post(`${API_BASE_URL}/admin/restaurants`, formData, {
+        axios.post<{}, IPostRestaurantData>(
+          `${API_BASE_URL}/admin/restaurants`,
+          formData,
+          {
             headers: {
-              Accept: "multipart/form-data",
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
               withCredentials: true,
             },
-          })
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((res) => {
-            console.log(res.data);
-          });
+          }
+        );
         router.push("/Restaurants");
-      })
-      .catch((res) => {
-        console.log(res.data);
       });
-  };
+  }
 
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const { register, handleSubmit } = useForm<IPostRestaurantData>();
 
   return (
     <section css={paddingWrapper}>
       <span css={title}>식당 추가하기</span>
       <form
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         css={wrapper}
         encType="multipart/form-data"
         method="post"
@@ -143,14 +153,17 @@ function AddRestaurant() {
         </div>
         <div css={inputLabelWrapper}>
           <label htmlFor="phone" css={labelWrapper}>
-            전화번호
+            전화번호 (xxx-xxxx-xxxx 형태로 적어주세요)
           </label>
           <input
             id="phone"
+            type="tel"
+            value={inputValue}
             placeholder="phone"
             css={inputWrapper}
             {...register("phone", { required: true })}
-            onChange={onChangePhone}
+            onChange={handlePress}
+            maxLength={13}
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -223,7 +236,6 @@ function AddRestaurant() {
           <input
             id="insideImg"
             type="file"
-            ref={inputRef}
             accept="image/png, image/jpeg, image/jpg"
             onChange={onChangeInsideImgFile}
           />
@@ -235,7 +247,6 @@ function AddRestaurant() {
           <input
             id="outsideImg"
             type="file"
-            ref={inputRef}
             accept="image/png, image/jpeg, image/jpg"
             onChange={onChangeOutsideImgFile}
           />
