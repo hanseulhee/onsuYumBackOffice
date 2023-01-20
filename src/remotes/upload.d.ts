@@ -9,3 +9,10 @@ interface IPostRestaurantData {
   summary: string;
   time: string[];
 }
+
+interface IPostMenu {
+  description: string;
+  menuImage: IPhoto;
+  name: string;
+  price: number;
+}
