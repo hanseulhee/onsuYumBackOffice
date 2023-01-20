@@ -35,3 +35,13 @@ interface IGetRestaurantDataContent {
   createDate: string;
   modifiedDate: string;
 }
+
+interface IPatchRestaurant {
+  latitude: number;
+  location: string;
+  longitude: number;
+  name: string;
+  phone: string;
+  summary: string;
+  time: string[];
+}
