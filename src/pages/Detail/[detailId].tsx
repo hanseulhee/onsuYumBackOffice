@@ -60,6 +60,7 @@ function Detail() {
             id={menu.id}
             name={menu.name}
             price={menu.price}
+            description={menu.description}
             menuImage={menu.menuImage}
           />
         );
