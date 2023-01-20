@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
+import { button } from "styles/css/button";
 
 interface Props {
   onClick(): void;
@@ -7,7 +8,7 @@ interface Props {
 
 function DeleteBtn({ onClick }: Props) {
   return (
-    <button css={button} onClick={onClick}>
+    <button css={deleteButton} onClick={onClick}>
       삭제하기
     </button>
   );
@@ -15,13 +16,8 @@ function DeleteBtn({ onClick }: Props) {
 
 export default DeleteBtn;
 
-const button = (theme: Theme) => css`
-  position: relative;
-  background-color: ${theme.color.red};
-  padding: 0.1rem 1rem;
-  height: 2.5rem;
-  border-radius: 30px;
-  font-weight: ${theme.fontWeight.bold};
-  font-size: 0.8rem;
+const deleteButton = (theme: Theme) => css`
+  ${button(theme)}
   color: ${theme.color.white};
+  background-color: ${theme.color.red};
 `;

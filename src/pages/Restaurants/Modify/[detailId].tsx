@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 function ModifyRestaurant() {
   const { register, handleSubmit } = useForm<IPatchRestaurant>();
   const [inputValue, setInputValue] = useState<string>("");
+  
   const handlePress = (e) => {
     const regex = /^[0-9\b -]{0,13}$/;
     if (regex.test(e.target.value)) {

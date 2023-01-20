@@ -17,14 +17,14 @@ interface Props {
 
 function MenuList({ id, name, price, menuImage }: Props) {
   const {
-    query: { modifyMenu },
+    query: { detailId },
   } = useRouter();
 
   const { deleteRestaurant } = usePostMenu({
-    modifyMenu,
+    detailId,
   });
 
-  function onClickDeleteBtn() {
+  function onClickDeleteBtn(id: number) {
     if (confirm("삭제하시겠습니까?")) {
       deleteRestaurant(id);
     }
@@ -36,11 +36,11 @@ function MenuList({ id, name, price, menuImage }: Props) {
         <div css={summaryWrapper}>
           <span css={menuName}>{name}</span>
           <span css={priceText}>{price}원</span>
-          <div>
-            <Link href={`/Menu/${id}`}>
+          <div css={buttonWrapper}>
+            <Link href={`/Menu/Modify/${id}`}>
               <ModifyBtn />
             </Link>
-            <DeleteBtn onClick={() => onClickDeleteBtn()} />
+            <DeleteBtn onClick={() => onClickDeleteBtn(id)} />
           </div>
         </div>
         <div css={imgWrapper}>
@@ -72,13 +72,13 @@ export default MenuList;
 const wrapper = (theme: Theme) => css`
   width: 100%;
   height: fit-content;
-  border-bottom: 1px solid ${theme.color.grey100}; ;
+  border-bottom: 1px solid ${theme.color.grey100};
 `;
 
 const itemPlaced = css`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 0.85rem 1.3rem;
 `;
 
@@ -104,13 +104,21 @@ const menuImg = css`
 `;
 
 const menuName = (theme: Theme) => css`
+  width: 13rem;
   font-weight: ${theme.fontWeight.bold};
-  font-size: 0.85rem;
+  font-size: 1.25rem;
   margin-bottom: 0.15rem;
 `;
 
 const priceText = (theme: Theme) => css`
   color: ${theme.color.grey500};
   font-weight: ${theme.fontWeight.light};
-  font-size: 0.78rem;
+  font-size: 0.9rem;
+`;
+
+const buttonWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 9rem;
 `;

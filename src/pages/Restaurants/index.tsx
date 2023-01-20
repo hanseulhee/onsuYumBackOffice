@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
+import CreateBtn from "components/Button/CreateBtn";
+import DeleteBtn from "components/Button/DeleteBtn";
+import ModifyBtn from "components/Button/ModifyBtn";
 import useGetRestaurant from "hooks/api/useGetRestaurant";
 import Link from "next/link";
 
-import { button } from "styles/css/button";
-
 function Restaurants() {
-  const { restaurants, isLoading, deleteRestaurant } = useGetRestaurant();
+  const { restaurants, isLoading, deleteRestaurant, getRestaurant } =
+    useGetRestaurant();
 
   if (isLoading) {
     return "로딩중";
@@ -23,19 +25,19 @@ function Restaurants() {
       <div css={navWrapper}>
         <span css={title}>온수냠냠냠 식당 모음</span>
         <Link href="/Restaurants/AddRestaurant">
-          <button css={createButton}>식당 추가하기</button>
+          <CreateBtn summary="식당 추가하기" />
         </Link>
       </div>
       {restaurants.map((restaurant) => (
         <Link href={`/Detail/${restaurant.id}`} key={restaurant.id}>
-          <div css={wrapper}>
+          <div css={contentWrapper}>
             <span css={restaurantnName}>{restaurant.name}</span>
-            <button
-              css={deleteButton}
-              onClick={() => onClickDeleteBtn(restaurant.id)}
-            >
-              삭제하기
-            </button>
+            <div css={buttonWrapper}>
+              <Link href={`/Restaurants/Modify/${restaurant.id}`}>
+                <ModifyBtn />
+              </Link>
+              <DeleteBtn onClick={() => onClickDeleteBtn(restaurant.id)} />
+            </div>
           </div>
         </Link>
       ))}
@@ -55,7 +57,7 @@ const navWrapper = css`
   justify-content: space-between;
 `;
 
-const wrapper = css`
+const contentWrapper = css`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -74,15 +76,12 @@ const restaurantnName = (theme: Theme) => css`
   font-size: 1.2rem;
   font-weight: ${theme.fontWeight.bold};
   opacity: 0.85;
+  margin-right: 0.6rem;
 `;
 
-const createButton = (theme: Theme) => css`
-  ${button(theme)}
-  background-color: ${theme.color.yellow};
-`;
-
-const deleteButton = (theme: Theme) => css`
-  ${button(theme)}
-  background-color: ${theme.color.border};
-  margin-left: 0.7rem;
+const buttonWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 9rem;
 `;

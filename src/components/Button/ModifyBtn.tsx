@@ -1,19 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
+import { button } from "styles/css/button";
 
 function ModifyBtn() {
-  return <button css={button}>수정하기</button>;
+  return <button css={modifyButton}>수정하기</button>;
 }
 
 export default ModifyBtn;
 
-const button = (theme: Theme) => css`
-  position: relative;
+const modifyButton = (theme: Theme) => css`
+  ${button(theme)}
   background-color: ${theme.color.yellow};
-  padding: 0.1rem 1rem;
-  height: 2.5rem;
-  border-radius: 30px;
-  font-weight: ${theme.fontWeight.bold};
-  font-size: 0.8rem;
-  color: ${theme.color.black};
 `;

@@ -9,8 +9,6 @@ import { API_BASE_URL } from "constants/common";
 import axios from "axios";
 
 function AddRestaurant() {
-  const [inputValue, setInputValue] = useState<string>("");
-
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
@@ -40,14 +38,16 @@ function AddRestaurant() {
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  
-  const handlePress = (e) => {
+
+  const [inputValue, setInputValue] = useState<string>("");
+
+  function handlePress(e) {
     const regex = /^[0-9\b -]{0,13}$/;
     if (regex.test(e.target.value)) {
       setInputValue(e.target.value);
     }
     setPhone(e.target.value);
-  };
+  }
 
   useEffect(() => {
     if (inputValue.length === 10) {
@@ -147,8 +147,9 @@ function AddRestaurant() {
             id="name"
             placeholder="name"
             css={inputWrapper}
-            {...register("name", { required: true })}
+            {...register("name")}
             onChange={onChangeName}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -161,9 +162,10 @@ function AddRestaurant() {
             value={inputValue}
             placeholder="phone"
             css={inputWrapper}
-            {...register("phone", { required: true })}
+            {...register("phone")}
             onChange={handlePress}
             maxLength={13}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -176,6 +178,7 @@ function AddRestaurant() {
             css={inputWrapper}
             {...register("summary", { required: true, maxLength: 17 })}
             onChange={onChangeSummary}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -186,8 +189,9 @@ function AddRestaurant() {
             id="location"
             placeholder="location"
             css={inputWrapper}
-            {...register("location", { required: true })}
+            {...register("location")}
             onChange={onChangeLocation}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -199,8 +203,9 @@ function AddRestaurant() {
             type="number"
             placeholder="latitude"
             css={inputWrapper}
-            {...register("latitude", { required: true })}
+            {...register("latitude")}
             onChange={onChangeLatitude}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -212,8 +217,9 @@ function AddRestaurant() {
             type="number"
             placeholder="longitude"
             css={inputWrapper}
-            {...register("longitude", { required: true })}
+            {...register("longitude")}
             onChange={onChangeLongitude}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -224,8 +230,9 @@ function AddRestaurant() {
             id="time"
             placeholder="time"
             css={inputWrapper}
-            {...register("time", { required: true })}
+            {...register("time")}
             onChange={onChangeTime}
+            required
           />
         </div>
 
@@ -238,6 +245,7 @@ function AddRestaurant() {
             type="file"
             accept="image/png, image/jpeg, image/jpg"
             onChange={onChangeInsideImgFile}
+            required
           />
         </div>
         <div css={inputLabelWrapper}>
@@ -249,6 +257,7 @@ function AddRestaurant() {
             type="file"
             accept="image/png, image/jpeg, image/jpg"
             onChange={onChangeOutsideImgFile}
+            required
           />
         </div>
 
