@@ -22,6 +22,15 @@ function useGetRestaurant() {
     getRestaurant();
   }, []);
 
+  async function modifyRestaurant(restaurantId?: number) {
+    await instance
+      .patch<{}, IPatchRestaurant>(`/admin/restaurants/${restaurantId}`)
+      .then((res) => {
+        console.log(res);
+        router.push("/Restaurants");
+      });
+  }
+
   async function deleteRestaurant(restaurantId: number) {
     await instance.delete(`/admin/restaurants/${restaurantId}`);
     router.push("/Restaurants");
@@ -31,6 +40,7 @@ function useGetRestaurant() {
   return {
     restaurants,
     isLoading,
+    modifyRestaurant,
     deleteRestaurant,
   };
 }
