@@ -1,14 +1,14 @@
-interface IGetBabfulsMenu {
+interface IGetBabfullMenu {
   timestamp: string;
   status: number;
   statusDetail: string;
   code: string;
   message: string;
-  data: IGetBabfulsMenuData;
+  data: IGetBabfullMenuData;
 }
 
-interface IGetBabfulsMenuData {
-  content: IGetBabfulsMenuDataContent[];
+interface IGetBabfullMenuData {
+  content: IGetBabfullMenuDataContent[];
   pageable: IPage;
   totalPage: number;
   totalElements: number;
@@ -21,11 +21,17 @@ interface IGetBabfulsMenuData {
   empty: boolean;
 }
 
-interface IGetBabfulsMenuDataContent {
+interface IGetBabfullMenuDataContent {
   id: number;
   menuDate: string;
   foods: string[];
   deliciousFood: string;
   createdDate: string;
   modifiedDate: string;
+}
+
+interface IPostBabfullMenu {
+  deliciousFood: string;
+  foods: string[];
+  menuDate: string;
 }
