@@ -5,8 +5,9 @@ import useGetRestaurantById from "hooks/api/useGetRestaurantById";
 import MenuList from "components/Menu/MenuList";
 import CreateBtn from "components/Button/CreateBtn";
 import PlaceInform from "components/Text/PlaceInform";
-import Link from "next/link";
 import SectionKeyword from "components/Text/SectionKeyword";
+import Link from "next/link";
+import Image from "next/image";
 
 function Detail() {
   const {
@@ -24,13 +25,25 @@ function Detail() {
   return (
     <div css={fullSizeWrapper}>
       <div css={itemSortWrapper}>
+        <p css={subName}>바깥쪽 이미지 (placeCard에 보일 이미지)</p>
         <div css={imgWrapper}>
-          {/* <img
-            src={`${restaurant?.insideImage.s3Url}`}
-            alt={restaurant?.name}
+          <Image
+            src={`${restaurant?.outsideImage.s3Url}`}
+            alt="바깥쪽 이미지"
+            layout="fill"
             css={imgSize}
-          /> */}
+          />
         </div>
+        <p css={subName}>안쪽 이미지 (detail 페이지에서 보일 이미지)</p>
+        <div css={imgWrapper}>
+          <Image
+            src={`${restaurant?.insideImage.s3Url}`}
+            alt="안쪽 이미지"
+            layout="fill"
+            css={imgSize}
+          />
+        </div>
+
         <PlaceInform title="한 줄 설명" summary={restaurant?.summary} />
         <PlaceInform title="전화" summary={restaurant?.phone} />
         <PlaceInform title="위치" summary={restaurant?.location} />
@@ -53,7 +66,7 @@ function Detail() {
         </Link>
       </div>
       <SectionKeyword name="메뉴" />
-      {restaurantMenu.map((menu) => {
+      {restaurantMenu?.map((menu) => {
         return (
           <MenuList
             key={menu.id}
