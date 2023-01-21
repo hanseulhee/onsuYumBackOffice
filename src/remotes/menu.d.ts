@@ -23,6 +23,10 @@ interface IMenuModify {
   price: number;
 }
 
+interface IMenuImageModify {
+  menuImage: IPhoto;
+}
+
 interface IPatchMenu {
   code: string;
   data: IPatchMenuData;

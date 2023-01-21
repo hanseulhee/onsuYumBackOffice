@@ -61,7 +61,7 @@ function Detail() {
             name={menu.name}
             price={menu.price}
             description={menu.description}
-            menuImage={menu.menuImage}
+            menuImage={menu?.menuImage}
           />
         );
       })}

@@ -12,7 +12,7 @@ interface IPostRestaurantData {
 
 interface IPostMenu {
   description: string;
-  menuImage: IPhoto;
+  menuImage: IPhoto | null;
   name: string;
   price: number;
 }

@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
+import CreateBtn from "components/Button/CreateBtn";
 import DeleteBtn from "components/Button/DeleteBtn";
 import ModifyBtn from "components/Button/ModifyBtn";
 import { API_BASE_URL } from "constants/common";
@@ -21,13 +22,20 @@ function MenuList({ id, name, price, menuImage, description }: Props) {
     query: { detailId },
   } = useRouter();
 
-  const { deleteMenu } = useMenu({
+  const { deleteMenu, deleteMenuImage } = useMenu({
     detailId,
   });
 
-  function onClickDeleteBtn(id: number) {
-    if (confirm("삭제하시겠습니까?")) {
+  function onClickMenuDeleteBtn(id: number) {
+    if (confirm("해당 메뉴를 삭제하시겠습니까?")) {
       deleteMenu(id);
+    }
+  }
+
+  function onClickMenuImageDeleteBtn(id: number) {
+    if (confirm("해당 메뉴의 이미지를 삭제하시겠습니까?")) {
+      deleteMenuImage(id);
+      alert("삭제되었습니다!");
     }
   }
 
@@ -38,11 +46,20 @@ function MenuList({ id, name, price, menuImage, description }: Props) {
           <span css={menuName}>{name}</span>
           <span css={priceText}>설명: {description}</span>
           <span css={priceText}>{price}원</span>
-          <div css={buttonWrapper}>
+          <div css={menuButtonWrapper}>
             <Link href={`/Menu/Modify/${id}`}>
               <ModifyBtn />
             </Link>
-            <DeleteBtn onClick={() => onClickDeleteBtn(id)} />
+            <DeleteBtn onClick={() => onClickMenuDeleteBtn(id)} />
+          </div>
+          <div css={menuImageButtonWrapper}>
+            <Link href={`/Menu/Add/MenuImage/${id}`}>
+              <CreateBtn summary="메뉴 이미지 등록하기" />
+            </Link>
+            <DeleteBtn
+              onClick={() => onClickMenuImageDeleteBtn(id)}
+              summary="메뉴 이미지"
+            />
           </div>
         </div>
         <div css={imgWrapper}>
@@ -118,9 +135,17 @@ const priceText = (theme: Theme) => css`
   font-size: 0.9rem;
 `;
 
-const buttonWrapper = css`
+const menuButtonWrapper = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 9rem;
+  margin: 0.2rem 0;
+`;
+
+const menuImageButtonWrapper = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 17rem;
 `;

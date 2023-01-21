@@ -4,12 +4,13 @@ import { button } from "styles/css/button";
 
 interface Props {
   onClick(): void;
+  summary?: string;
 }
 
-function DeleteBtn({ onClick }: Props) {
+function DeleteBtn({ onClick, summary }: Props) {
   return (
     <button css={deleteButton} onClick={onClick}>
-      삭제하기
+      {summary} 삭제하기
     </button>
   );
 }
