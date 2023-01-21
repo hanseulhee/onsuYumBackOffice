@@ -34,7 +34,7 @@ function ModifyMenu() {
 
   async function modifyMenu() {
     await instance
-      .patch<{}, IPostMenuData>(
+      .patch<{}, IPatchMenuData>(
         `/admin/menus/${detailId}`,
         {
           name: name,
@@ -61,9 +61,10 @@ function ModifyMenu() {
           <label htmlFor="name" css={labelWrapper}>
             메뉴 이름
           </label>
+          <p css={originalContent}>{menu?.name}</p>
           <input
             id="name"
-            placeholder={menu?.name}
+            placeholder="name"
             css={inputWrapper}
             {...register("name")}
             onChange={onChangeName}
@@ -74,6 +75,7 @@ function ModifyMenu() {
           <label htmlFor="price" css={labelWrapper}>
             메뉴 가격
           </label>
+          <p css={originalContent}>{menu?.price}</p>
           <input
             id="price"
             type="number"
@@ -88,9 +90,10 @@ function ModifyMenu() {
           <label htmlFor="description" css={labelWrapper}>
             식당 한 줄 설명
           </label>
+          <p css={originalContent}>{menu?.description}</p>
           <input
             id="description"
-            placeholder={menu?.description}
+            placeholder="description"
             css={inputWrapper}
             {...register("description")}
             onChange={onChangeDescription}
@@ -153,4 +156,10 @@ const buttonWrapper = css`
   flex-direction: column;
   align-items: flex-end;
   margin-top: 1rem;
+`;
+
+const originalContent = (theme: Theme) => css`
+  font-size: 0.85rem;
+  font-weight: ${theme.fontWeight.light};
+  color: ${theme.color.grey500};
 `;

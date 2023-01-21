@@ -8,10 +8,10 @@ interface UseGetMenuByIdProps {
 
 function useMenu({ detailId }: UseGetMenuByIdProps) {
   const router = useRouter();
-  const [menu, setMenu] = useState<IPostMenuData | null>(null);
+  const [menu, setMenu] = useState<IPatchMenuData | null>(null);
 
   async function getMenuById(id: string) {
-    const response = await instance.get<{}, IPostMenu>(`/admin/menus/${id}`);
+    const response = await instance.get<{}, IPatchMenu>(`/admin/menus/${id}`);
     setMenu(response.data);
   }
 

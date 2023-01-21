@@ -23,16 +23,16 @@ interface IMenuModify {
   price: number;
 }
 
-interface IPostMenu {
+interface IPatchMenu {
   code: string;
-  data: IPostMenuData;
+  data: IPatchMenuData;
   message: string;
   status: number;
   statusDetail: string;
   timestamp: string;
 }
 
-interface IPostMenuData {
+interface IPatchMenuData {
   createdDate: string;
   description: string;
   id: number;
