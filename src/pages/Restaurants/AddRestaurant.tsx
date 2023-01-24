@@ -16,23 +16,23 @@ function AddRestaurant() {
   const [latitude, setLatitude] = useState<number>();
   const [longitude, setLongitude] = useState<number>();
   const [time, setTime] = useState<string[]>();
-  const [insideImg, setInsideImg] = useState<File>();
-  const [outsideImg, setOutsideImg] = useState<File>();
+  const [insideImage, setInsideImage] = useState<File>();
+  const [outsideImage, setOutsideImage] = useState<File>();
 
-  const onChangeInsideImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeInsideImageFile = (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
     const target = e.currentTarget;
     const files = (target.files as FileList)[0];
     formData.append("file", e.currentTarget.value[0]);
-    setInsideImg(files);
+    setInsideImage(files);
   };
 
-  const onChangeOutsideImgFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeOutsideImageFile = (e: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
     const target = e.currentTarget;
     const files = (target.files as FileList)[0];
     formData.append("file", e.currentTarget.value[0]);
-    setOutsideImg(files);
+    setOutsideImage(files);
   };
 
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,18 +83,26 @@ function AddRestaurant() {
   };
 
   function onSubmit() {
+    if (insideImage === undefined || outsideImage === undefined) {
+      router.push("/Restaurants");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("summary", summary);
+    formData.append("location", location);
+    formData.append("latitude", latitude);
+    formData.append("longitude", longitude);
+    formData.append("time", time);
+    formData.append("insideImage", insideImage);
+    formData.append("outsideImage", outsideImage);
+
     axios
       .post<{}, IPostRestaurantData>(
         `${API_BASE_URL}/admin/restaurants`,
-        {
-          name: name,
-          phone: phone,
-          summary: summary,
-          location: location,
-          latitude: latitude,
-          longitude: longitude,
-          time: time,
-        },
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -103,26 +111,7 @@ function AddRestaurant() {
           },
         }
       )
-      .then((res) => {
-        if (insideImg === undefined || outsideImg === undefined) {
-          router.push("/Restaurants");
-          return;
-        }
-        const formData = new FormData();
-        formData.append("insideImg", insideImg);
-        formData.append("outsideImg", outsideImg);
-
-        axios.post<{}, IPostRestaurantData>(
-          `${API_BASE_URL}/admin/restaurants`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              withCredentials: true,
-            },
-          }
-        );
+      .then(() => {
         router.push("/Restaurants");
       });
   }
@@ -237,26 +226,26 @@ function AddRestaurant() {
         </div>
 
         <div css={inputLabelWrapper}>
-          <label htmlFor="insideImg" css={labelWrapper}>
+          <label htmlFor="insideImage" css={labelWrapper}>
             안쪽 이미지 (detail 페이지에서 보일 이미지)
           </label>
           <input
-            id="insideImg"
+            id="insideImage"
             type="file"
             accept="image/png, image/jpeg, image/jpg"
-            onChange={onChangeInsideImgFile}
+            onChange={onChangeInsideImageFile}
             required
           />
         </div>
         <div css={inputLabelWrapper}>
-          <label htmlFor="outsideImg" css={labelWrapper}>
+          <label htmlFor="outsideImage" css={labelWrapper}>
             바깥쪽 이미지 (placeCard에 보일 이미지)
           </label>
           <input
-            id="outsideImg"
+            id="outsideImage"
             type="file"
             accept="image/png, image/jpeg, image/jpg"
-            onChange={onChangeOutsideImgFile}
+            onChange={onChangeOutsideImageFile}
             required
           />
         </div>

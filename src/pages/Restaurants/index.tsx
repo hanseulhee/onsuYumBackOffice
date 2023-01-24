@@ -7,7 +7,7 @@ import useGetRestaurant from "hooks/api/useGetRestaurant";
 import Link from "next/link";
 
 function Restaurants() {
-  const { restaurants, isLoading, deleteRestaurant, getRestaurant } =
+  const { restaurants, isLoading, deleteRestaurant } =
     useGetRestaurant();
 
   if (isLoading) {
