@@ -24,7 +24,7 @@ interface IMenuModify {
 }
 
 interface IMenuImageModify {
-  menuImage: IPhoto;
+  image: IPhoto;
 }
 
 interface IPatchMenu {
