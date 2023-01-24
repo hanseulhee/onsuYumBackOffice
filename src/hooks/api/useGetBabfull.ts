@@ -22,14 +22,6 @@ function useGetBabfull() {
     getBabfull();
   }, []);
 
-  async function modifyBabfullMenu(restaurantId?: number) {
-    await instance
-      .patch<{}, IPostBabfullMenu>(`/admin/babfuls/${restaurantId}`)
-      .then((res) => {
-        router.push("/Babfull");
-      });
-  }
-
   async function deleteBabfullMenu(restaurantId: number) {
     await instance.delete(`/admin/babfuls/${restaurantId}`);
     router.push("/Babfull");
@@ -39,7 +31,6 @@ function useGetBabfull() {
   return {
     babfullMenus,
     isLoading,
-    modifyBabfullMenu,
     deleteBabfullMenu,
     getBabfull,
   };
