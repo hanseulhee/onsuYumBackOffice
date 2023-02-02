@@ -10,6 +10,15 @@ interface IPostRestaurantData {
   time: string[];
 }
 
+interface IMenu {
+  code: string;
+  data: IPostMenu[];
+  message: string;
+  status: number;
+  statusDetail: string;
+  timestamp: string;
+}
+
 interface IPostMenu {
   description: string;
   menuImage: IPhoto | null;
