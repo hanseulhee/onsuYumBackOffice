@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css, Theme } from "@emotion/react";
-import { button } from "styles/css/button";
-import { input } from "styles/css/input";
-import { useForm } from "react-hook-form";
+import axios from "axios";
+import { API_BASE_URL } from "constants/common";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
-import { API_BASE_URL } from "constants/common";
-import axios from "axios";
+import { useForm } from "react-hook-form";
+import { button } from "styles/css/button";
+import { input } from "styles/css/input";
 
 function AddMenu() {
   const {
@@ -45,19 +45,22 @@ function AddMenu() {
     formData.append("price", price);
     formData.append("menuImage", menuImage);
 
-    axios.post<{}, IPostMenu>(
-      `${API_BASE_URL}/admin/restaurants/${detailId}/menus`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          withCredentials: true,
-        },
-      }
-    );
+    axios
+      .post<{}, IPostMenu>(
+        `${API_BASE_URL}/admin/restaurants/${detailId}/menus`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            withCredentials: true,
+          },
+        }
+      )
+      .then(() => {
+        router.push("/Restaurants");
+      });
   }
-
   const router = useRouter();
   const { register, handleSubmit } = useForm<IPostMenu>();
 
@@ -120,7 +123,6 @@ function AddMenu() {
             type="file"
             accept="image/png, image/jpeg, image/jpg"
             onChange={onChangeMenuImageFile}
-            required
           />
         </div>
         <div css={buttonWrapper}>

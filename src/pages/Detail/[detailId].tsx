@@ -24,8 +24,9 @@ function Detail() {
   return (
     <div css={fullSizeWrapper}>
       <div css={itemSortWrapper}>
+        <h1>{restaurant?.name}</h1>
         <p css={subName}>바깥쪽 이미지 (placeCard에 보일 이미지)</p>
-        <div css={imgWrapper}>
+        {/* <div css={imgWrapper}>
           <img
             src={`${restaurant?.outsideImage.s3Url}`}
             alt="바깥쪽 이미지"
@@ -39,7 +40,7 @@ function Detail() {
             alt="안쪽 이미지"
             css={imgSize}
           />
-        </div>
+        </div> */}
         <PlaceInform title="한 줄 설명" summary={restaurant?.summary} />
         <PlaceInform title="전화" summary={restaurant?.phone} />
         <PlaceInform title="위치" summary={restaurant?.location} />
