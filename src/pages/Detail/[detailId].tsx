@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { useRouter } from "next/router";
 import { css, Theme } from "@emotion/react";
-import useGetRestaurantById from "hooks/api/useGetRestaurantById";
-import MenuList from "components/Menu/MenuList";
 import CreateBtn from "components/Button/CreateBtn";
+import MenuList from "components/Menu/MenuList";
 import PlaceInform from "components/Text/PlaceInform";
 import SectionKeyword from "components/Text/SectionKeyword";
+import useGetRestaurantById from "hooks/api/useGetRestaurantById";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Detail() {
   const {
@@ -25,22 +26,31 @@ function Detail() {
     <div css={fullSizeWrapper}>
       <div css={itemSortWrapper}>
         <h1>{restaurant?.name}</h1>
-        <p css={subName}>바깥쪽 이미지 (placeCard에 보일 이미지)</p>
-        {/* <div css={imgWrapper}>
-          <img
-            src={`${restaurant?.outsideImage.s3Url}`}
-            alt="바깥쪽 이미지"
-            css={imgSize}
-          />
+        <div css={imgFullWrapper}>
+          <div css={imgWrapper}>
+            <p css={subName}>바깥쪽 이미지 (placeCard에 보일 이미지)</p>
+            {restaurant && (
+              <Image
+                src={`${restaurant.outsideImage.s3Url}`}
+                alt="바깥쪽 이미지"
+                width={100}
+                height={100}
+              />
+            )}
+          </div>
+          <div css={imgWrapper}>
+            <p css={subName}>안쪽 이미지 (detail 페이지에서 보일 이미지)</p>
+            {restaurant && (
+              <Image
+                src={`${restaurant.insideImage.s3Url}`}
+                alt="안쪽 이미지"
+                width={100}
+                height={100}
+              />
+            )}
+          </div>
         </div>
-        <p css={subName}>안쪽 이미지 (detail 페이지에서 보일 이미지)</p>
-        <div css={imgWrapper}>
-          <img
-            src={`${restaurant?.insideImage.s3Url}`}
-            alt="안쪽 이미지"
-            css={imgSize}
-          />
-        </div> */}
+
         <PlaceInform title="한 줄 설명" summary={restaurant?.summary} />
         <PlaceInform title="전화" summary={restaurant?.phone} />
         <PlaceInform title="위치" summary={restaurant?.location} />
@@ -87,17 +97,15 @@ const fullSizeWrapper = css`
   margin: 0 auto;
 `;
 
+const imgFullWrapper = css`
+  display: flex;
+  flex-direction: row;
+`;
+
 const imgWrapper = css`
   position: relative;
   width: 100%;
-  height: 14rem;
-`;
-
-const imgSize = css`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 13rem;
 `;
 
 const itemSortWrapper = css`
